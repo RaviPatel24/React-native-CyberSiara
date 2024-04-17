@@ -1,0 +1,25 @@
+{
+  "name": "react-native-siarashield",
+  "version": "1.0.12",
+  "description": "",
+  "main": "CyberSiaraCaptcha.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shineinfosoft105@gmail.com",
+  "license": "ISC",
+  "keywords": [
+    "react-siarashield",
+    "react-native-siarashield"
+  ],
+  "dependencies": {
+    "react": "17.0.2",
+    "react-native": ">=0.47",
+    "react-native-device-info": "^10.4.0",
+    "react-native-dropdown-picker": "^5.4.4",
+    "react-native-indicators": "^0.17.0",
+    "react-native-modal": "^13.0.1",
+    "react-native-network-info": "^5.2.1",
+    "react-native-slide-to-unlock": "^0.1.6"
+  }
+}

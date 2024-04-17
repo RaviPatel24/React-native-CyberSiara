@@ -1,0 +1,41 @@
+{
+  "name": "CyberSiara",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "^18.2.0",
+    "react-native": "0.68.0",
+    "react-native-check-box": "^2.1.7",
+    "react-native-device-info": "^10.4.0",
+    "react-native-dotenv": "^3.4.8",
+    "react-native-dropdown-picker": "^5.4.4",
+    "react-native-indicators": "^0.17.0",
+    "react-native-modal": "^13.0.1",
+    "react-native-network-info": "^5.2.1",
+    "react-native-siarashield": "^1.0.10",
+    "react-native-slide-to-unlock": "^0.1.6",
+    "react-native-vector-icons": "^9.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/runtime": "^7.21.0",
+    "@react-native-community/eslint-config": "^3.2.0",
+    "babel-jest": "^29.4.3",
+    "eslint": "^8.35.0",
+    "jest": "^29.4.3",
+    "metro-react-native-babel-preset": "^0.75.1",
+    "path": "^0.12.7",
+    "react-test-renderer": "17.0.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
