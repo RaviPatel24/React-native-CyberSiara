@@ -454,7 +454,7 @@ const CyberSiaraCaptcha = (props) => {
                       source={{
                         uri: captcha?.HtmlFormate,
                       }}
-                      style={{width: 260, height: 65}}
+                      style={{width: '100%', height: 65}}
                     />
                   </View>
                   <TouchableOpacity onPress={() => GenerateCaptcha()}>
