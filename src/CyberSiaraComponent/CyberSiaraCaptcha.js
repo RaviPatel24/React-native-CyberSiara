@@ -297,12 +297,12 @@ const CyberSiaraCaptcha = (props) => {
               }}
               containerStyle={{
                 margin: 8,
-                backgroundColor: 'lightgray',
+                backgroundColor: "lightgray",
                 borderRadius: 100,
-                overflow: 'hidden',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '70%',
+                overflow: "hidden",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "70%",
               }}
               sliderElement={
                 <Image
@@ -312,10 +312,10 @@ const CyberSiaraCaptcha = (props) => {
                     borderRadius: 100,
                     height: 50,
                     borderWidth: 5,
-                    borderColor: 'white',
-                    backgroundColor: 'red',
+                    borderColor: "white",
+                    backgroundColor: "red",
                   }}
-                  source={require('./Images/slideArrow.png')}
+                  source={require("./Images/slideArrow.png")}
                 />
               }
             >
@@ -334,26 +334,26 @@ const CyberSiaraCaptcha = (props) => {
                   borderRadius: 100,
                   height: 50,
                 }}
-                source={require('./Images/RightCaptcha.gif')}
+                source={require("./Images/RightCaptcha.gif")}
               />
             </View>
           ) : (
             <View
               style={[
                 styles.VerifiedView,
-                {backgroundColor: 'lightgray', padding: 0},
+                { backgroundColor: "lightgray", padding: 0 },
               ]}
             >
               <View>
                 <Text
                   style={[
                     styles.HumanUserText,
-                    {marginLeft: 55, paddingTop: 11.5},
+                    { marginLeft: 55, paddingTop: 11.5 },
                   ]}
                 >
                   Human User ?
                 </Text>
-                <Text style={[styles.SlideToVerifyText, {marginLeft: 57}]}>
+                <Text style={[styles.SlideToVerifyText, { marginLeft: 57 }]}>
                   Slide to Verify
                 </Text>
               </View>
@@ -364,10 +364,10 @@ const CyberSiaraCaptcha = (props) => {
                   borderRadius: 100,
                   height: 50,
                   borderWidth: 5,
-                  borderColor: 'white',
-                  backgroundColor: 'red',
+                  borderColor: "white",
+                  backgroundColor: "red",
                 }}
-                source={require('./Images/slideArrow.png')}
+                source={require("./Images/slideArrow.png")}
               />
             </View>
           )}
@@ -380,11 +380,11 @@ const CyberSiaraCaptcha = (props) => {
                 borderRadius: 100,
                 height: 60,
               }}
-              source={require('./Images/download.png')}
+              source={require("./Images/download.png")}
             />
           </View>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={styles.ProtectedByText}>Protected by CyberSiARA</Text>
           <Text style={styles.PrivacyText}>Privacy Terms</Text>
         </View>
@@ -394,8 +394,8 @@ const CyberSiaraCaptcha = (props) => {
             <View style={styles.ModalMainContainer}>
               <View
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
                 <Image
@@ -406,18 +406,18 @@ const CyberSiaraCaptcha = (props) => {
                     borderRadius: 100,
                     height: 40,
                   }}
-                  source={require('./Images/download.png')}
+                  source={require("./Images/download.png")}
                 />
                 <TouchableOpacity
                   onPress={() => setCaptchaShow(false) || setVisible(false)}
                 >
                   <Image
-                    source={require('./Images/close.png')}
-                    style={{marginTop: 20, padding: 5, height: 15, width: 15}}
+                    source={require("./Images/close.png")}
+                    style={{ marginTop: 20, padding: 5, height: 15, width: 15 }}
                   />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.SelectLanguageText}>
+              {/* <Text style={styles.SelectLanguageText}>
                 Please Select Language
               </Text>
               <View>
@@ -439,60 +439,70 @@ const CyberSiaraCaptcha = (props) => {
                   setValue={setValue}
                   setItems={setuser_type}
                 />
-              </View>
+              </View> */}
               <View>
                 <Text style={styles.TypeAllTheLetterText}>
                   Type all the displayed letters
                 </Text>
 
-                <View style={{flexDirection: 'row'}}>
+                <View style={{ flexDirection: "row" }}>
                   <View style={styles.CaptchaView}>
-                    <View style={{backgroundColor: 'red', top: 35}}>
-                      <SkypeIndicator color={'black'} size={25} />
+                    <View style={{ backgroundColor: "red", top: 35 }}>
+                      <SkypeIndicator color={"black"} size={25} />
                     </View>
                     <Image
                       source={{
                         uri: captcha?.HtmlFormate,
                       }}
-                      style={{width: '100%', height: 65}}
+                      style={{ width: "100%", height: 65 }}
                     />
                   </View>
                   <TouchableOpacity onPress={() => GenerateCaptcha()}>
                     <Image
-                      source={require('./Images/refresh-page-option.png')}
+                      source={require("./Images/refresh-page-option.png")}
                       style={{
                         margin: 10,
                         padding: 1,
                         marginTop: 20,
                         height: 20,
                         width: 20,
+                        tintColor: "#002a5c",
                       }}
                     />
                   </TouchableOpacity>
                 </View>
 
-                <View style={{flexDirection: 'row'}}>
+                <View style={{ flexDirection: "row" }}>
                   <TextInput
                     style={styles.InputCaptcha}
                     maxLength={4}
                     value={captchaText}
-                    onChangeText={text => SubmitCaptcha(text)}
+                    onChangeText={(text) => SubmitCaptcha(text)}
                     secureTextEntry={caseSensitive}
                     onSubmitEditing={() => SubmitCaptcha()}
                   />
                   <View
                     style={{
-                      flexDirection: 'row',
+                      flexDirection: "row",
                       paddingTop: 25,
                       paddingLeft: 10,
                     }}
                   >
-                    <Text style={{paddingTop: 10}}>Not Case Sensitive</Text>
+                    <Text
+                      style={{
+                        paddingTop: 10,
+                        fontSize: 13,
+                        width: "55%",
+                        textAlign: "center",
+                      }}
+                    >
+                      Type all the displayed letters
+                    </Text>
 
                     {caseSensitive ? (
                       <TouchableOpacity onPress={() => setCaseSensitive(false)}>
                         <Image
-                          source={require('./Images/view.png')}
+                          source={require("./Images/view.png")}
                           style={{
                             marginLeft: 10,
                             padding: 5,
@@ -505,7 +515,7 @@ const CyberSiaraCaptcha = (props) => {
                     ) : (
                       <TouchableOpacity onPress={() => setCaseSensitive(true)}>
                         <Image
-                          source={require('./Images/hide.png')}
+                          source={require("./Images/hide.png")}
                           style={{
                             marginLeft: 10,
                             padding: 5,
@@ -518,7 +528,7 @@ const CyberSiaraCaptcha = (props) => {
                     )}
                     <TouchableOpacity>
                       <Image
-                        source={require('./Images/dots.png')}
+                        source={require("./Images/dots.png")}
                         style={{
                           padding: 5,
                           paddingTop: 10,
@@ -532,13 +542,31 @@ const CyberSiaraCaptcha = (props) => {
                 </View>
               </View>
 
-              <View style={{justifyContent: 'center'}}>
-                <Text
-                  style={{textAlign: 'center', marginTop: 20, fontSize: 10}}
+              <View style={{ justifyContent: "center" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  Protected by CyberSIARA @
-                </Text>
-                <Text style={{textAlign: 'center', fontSize: 10}}>
+                  <Text
+                    style={{ textAlign: "center", marginTop: 20, fontSize: 10 }}
+                  >
+                    Protected by CyberSIARA
+                  </Text>
+                  <Image
+                    style={{
+                      width: 15,
+                      margin: 4,
+                      top: 10,
+                      height: 15,
+                      tintColor: "black",
+                    }}
+                    source={require("./Images/download.png")}
+                  />
+                </View>
+                <Text style={{ textAlign: "center", fontSize: 10 }}>
                   Privacy - Teams
                 </Text>
               </View>
@@ -546,9 +574,9 @@ const CyberSiaraCaptcha = (props) => {
           </Modal>
         </View>
         {indicator ? (
-          <Modal visible={indicator} transparent={true} style={{margin: 0}}>
-            <View style={{flex: 1, backgroundColor: '#4E4E4E80'}}>
-              <SkypeIndicator color={'lightgray'} size={40} />
+          <Modal visible={indicator} transparent={true} style={{ margin: 0 }}>
+            <View style={{ flex: 1, backgroundColor: "#4E4E4E80" }}>
+              <SkypeIndicator color={"lightgray"} size={40} />
             </View>
           </Modal>
         ) : null}
