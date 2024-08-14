@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -8,26 +8,26 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import DeviceInfo from 'react-native-device-info';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { SkypeIndicator } from 'react-native-indicators';
-import Modal from 'react-native-modal';
-import { NetworkInfo } from 'react-native-network-info';
-import Slider from 'react-native-slide-to-unlock';
+} from "react-native";
+import DeviceInfo from "react-native-device-info";
+import DropDownPicker from "react-native-dropdown-picker";
+import { SkypeIndicator } from "react-native-indicators";
+import Modal from "react-native-modal";
+import { NetworkInfo } from "react-native-network-info";
+import Slider from "react-native-slide-to-unlock";
 
 const CyberSiaraCaptcha = (props) => {
-  const {isLogin , PUBLIC_KEY , PRIVATE_KEY} = props;
-  const {width, height} = Dimensions.get('window');
+  const { isLogin, PUBLIC_KEY, PRIVATE_KEY } = props;
+  const { width, height } = Dimensions.get("window");
 
   const [visible, setVisible] = useState(false);
   const [captchaShow, setCaptchaShow] = useState(false);
   const [caseSensitive, setCaseSensitive] = useState(false);
-
+  const [error, setError] = useState("");
   const [captchaSolve, setCaptchaSolve] = useState(false);
   const [visiterId, setVisiterId] = useState();
 
-  const [captchaText, setCaptchaText] = useState('');
+  const [captchaText, setCaptchaText] = useState("");
 
   const [captcha, setCaptcha] = useState();
 
@@ -35,33 +35,26 @@ const CyberSiaraCaptcha = (props) => {
   const [verifiedCaptchaData, setVerifiedCaptchaData] = useState([]);
   const [indicator, setIndicator] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [user_type, setuser_type] = useState([
-    {label: 'English', value: 'English'},
-    {label: 'Hindi', value: 'Hindi'},
-  ]);
-
   const [state, setState] = useState({
-    DeviceIp: '',
-    DeviceType: '',
-    DeviceName: '',
-    UniqueID: '',
-    PackageName: '',
+    DeviceIp: "",
+    DeviceType: "",
+    DeviceName: "",
+    UniqueID: "",
+    PackageName: "",
   });
 
-  const {DeviceIp, DeviceType, DeviceName, UniqueID, PackageName} = state;
+  const { DeviceIp, DeviceType, DeviceName, UniqueID, PackageName } = state;
   console.log();
   console.log(state);
   const _onChangeText = (key, val) => {
-    setState(state => ({...state, [key]: val}));
+    setState((state) => ({ ...state, [key]: val }));
   };
 
   useEffect(() => {
-    if (Platform.OS == 'android') {
-      _onChangeText('DeviceType', 'Android');
+    if (Platform.OS == "android") {
+      _onChangeText("DeviceType", "Android");
     } else {
-      _onChangeText('DeviceType', 'Ios');
+      _onChangeText("DeviceType", "Ios");
     }
   }, []);
 
@@ -70,21 +63,21 @@ const CyberSiaraCaptcha = (props) => {
   }, []);
 
   const GetDeviceInfo = async () => {
-    NetworkInfo.getIPAddress().then(ipAddress => {
-      _onChangeText('DeviceIp', ipAddress);
+    NetworkInfo.getIPAddress().then((ipAddress) => {
+      _onChangeText("DeviceIp", ipAddress);
     });
 
-    DeviceInfo.getManufacturer().then(deviceName => {
-      _onChangeText('DeviceName', deviceName);
+    DeviceInfo.getManufacturer().then((deviceName) => {
+      _onChangeText("DeviceName", deviceName);
     });
 
     const uniqueId = await DeviceInfo.getUniqueId();
-    _onChangeText('UniqueID', uniqueId);
+    _onChangeText("UniqueID", uniqueId);
     console.log(uniqueId);
 
     let bundleId = DeviceInfo.getBundleId();
-    console.log('111111111111', bundleId);
-    _onChangeText('PackageName', bundleId);
+    console.log("111111111111", bundleId);
+    _onChangeText("PackageName", bundleId);
   };
 
   useEffect(() => {
@@ -92,42 +85,42 @@ const CyberSiaraCaptcha = (props) => {
   }, [state]);
 
   var myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append("Content-Type", "application/json");
 
   const Captcha = async () => {
     setIndicator(true);
 
     var raw = JSON.stringify({
       MasterUrlId: PUBLIC_KEY,
-      RequestUrl: PackageName+'.com',
+      RequestUrl: PackageName + ".com",
       BrowserIdentity: UniqueID,
       DeviceIp: DeviceIp,
       DeviceType: DeviceType,
-      DeviceBrowser: 'Chrome',
+      DeviceBrowser: "Chrome",
       DeviceName: DeviceName,
       DeviceHeight: Math.round(height),
       DeviceWidth: Math.round(width),
     });
-    console.log('1 Api Data Pass ------ ', raw);
+    console.log("1 Api Data Pass ------ ", raw);
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: "follow",
     };
     await fetch(
-      'https://embed.mycybersiara.com/api/CyberSiara/GetCyberSiaraForAndroid',
-      requestOptions,
+      "https://embed.mycybersiara.com/api/CyberSiara/GetCyberSiaraForAndroid",
+      requestOptions
     )
-      .then(response => response.json())
-      .then(result => {
+      .then((response) => response.json())
+      .then((result) => {
         setIndicator(false);
-        console.log('1 APi Response -=-=-=- ', result?.Message);
+        console.log("1 APi Response -=-=-=- ", result?.Message);
         setVisiterId(result);
       })
-      .catch(error => {
+      .catch((error) => {
         setIndicator(false);
-        console.log('error 1', error);
+        console.log("error 1", error);
       });
   };
 
@@ -137,31 +130,32 @@ const CyberSiaraCaptcha = (props) => {
       DeviceIp: DeviceIp,
       DeviceName: DeviceName,
       BrowserIdentity: UniqueID,
-      Protocol: 'http',
-      second: '5',
+      Protocol: "http",
+      second: "5",
       RequestID: visiterId?.RequestId,
       VisiterId: visiterId?.Visiter_Id,
     });
-    console.log('2 APi Data Pass ------', raw);
+    console.log("2 APi Data Pass ------", raw);
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     await fetch(
-      'https://embed.mycybersiara.com/api/SubmitCaptcha/VerifiedSubmitForAndroid',
-      requestOptions,
+      "https://embed.mycybersiara.com/api/SubmitCaptcha/VerifiedSubmitForAndroid",
+      requestOptions
     )
-      .then(response => response.json())
-      .then(result => {
+      .then((response) => response.json())
+      .then((result) => {
         setSubmitApiData(result);
-        console.log('2 Api Response -=-=-=- ', result, result?.Message);
-        if (result.Message == 'success') {
+        console.log("2 Api Response -=-=-=- ", result, result?.Message);
+        if (result.Message == "success") {
           setVisible(true);
           props.loginVisible(true);
           setCaptchaSolve(true);
+          setCaptchaShow(false);
           setIndicator(false);
           Refresh();
         } else {
@@ -173,10 +167,10 @@ const CyberSiaraCaptcha = (props) => {
           GenerateCaptcha();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         setVisible(false);
         setIndicator(false);
-        console.log('error 2', error);
+        console.log("error 2", error);
       });
   };
 
@@ -185,93 +179,115 @@ const CyberSiaraCaptcha = (props) => {
 
     var raw = JSON.stringify({
       MasterUrlId: PUBLIC_KEY,
-      RequestUrl: PackageName+'.com',
+      RequestUrl: PackageName + ".com",
       BrowserIdentity: UniqueID,
       DeviceIp: DeviceIp,
       DeviceType: DeviceType,
-      DeviceBrowser: 'unknown',
+      DeviceBrowser: "unknown",
       DeviceName: DeviceName,
       DeviceHeight: Math.round(height),
       DeviceWidth: Math.round(width),
       VisiterId: visiterId?.Visiter_Id,
     });
-    console.log('3 Api Data Pass', raw);
+    console.log("3 Api Data Pass", raw);
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     fetch(
-      'https://embed.mycybersiara.com/api/GenerateCaptcha/CaptchaForAndroid',
-      requestOptions,
+      "https://embed.mycybersiara.com/api/GenerateCaptcha/CaptchaForAndroid",
+      requestOptions
     )
-      .then(response => response.json())
-      .then(result => {
+      .then((response) => response.json())
+      .then((result) => {
         setIndicator(false);
         setCaptcha(result);
-        console.log('3 Api Response -=-=-=- ', result);
+        console.log("3 Api Response -=-=-=- ", result);
       })
-      .catch(error => {
+      .catch((error) => {
         setIndicator(false);
-        console.log('error 3', error);
+        console.log("error 3", error);
       });
   };
 
-  const SubmitCaptcha = data => {
-    setCaptchaText(data);
-    if (captchaText.length == 5 - 1) {
+  const handleChange = (text) => {
+    setCaptchaText(text);
+    validateInput(text);
+  };
+
+  const validateInput = (value) => {
+    if (value?.length === 0) {
+      setError("Please enter the captcha code.");
+    } else if (value?.length < 4) {
+      setError("Captcha code must be exactly 4 digits.");
+    } else if (value?.length === 4) {
+      setError("");
+      SubmitCaptcha(value);
+    }
+  };
+
+  const handleKeyPress = ({ nativeEvent }) => {
+    if (nativeEvent?.key === "Enter") {
+      SubmitCaptcha(captchaText);
+    }
+  };
+
+  const SubmitCaptcha = (data) => {
+    if (data?.length == 4) {
       setIndicator(true);
       var raw = JSON.stringify({
         MasterUrl: PUBLIC_KEY,
         DeviceIp: DeviceIp,
         DeviceType: DeviceType,
         DeviceName: DeviceName,
-        UserCaptcha: captchaText,
-        ByPass: 'Netural',
+        UserCaptcha: data,
+        ByPass: "Netural",
         BrowserIdentity: UniqueID,
-        Timespent: '24',
-        Protocol: 'http',
-        Flag: '1',
-        second: '2',
+        Timespent: "24",
+        Protocol: "http",
+        Flag: "1",
+        second: "2",
         RequestID: visiterId?.RequestId,
         VisiterId: visiterId?.Visiter_Id,
-        fillupsecond: '8',
+        fillupsecond: "8",
       });
 
-      console.log('4 Api Data Pass ------ ', raw);
+      console.log("4 Api Data Pass ------ ", raw);
 
       var requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: myHeaders,
         body: raw,
-        redirect: 'follow',
+        redirect: "follow",
       };
 
       fetch(
-        'https://embed.mycybersiara.com/api/SubmitCaptcha/SubmitCaptchInfoForAndroid',
-        requestOptions,
+        "https://embed.mycybersiara.com/api/SubmitCaptcha/SubmitCaptchInfoForAndroid",
+        requestOptions
       )
-        .then(response => response.json())
-        .then(result => {
-          console.log('4 Api Response -=-=-=-=-= ', result);
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("4 Api Response -=-=-=-=-= ", result);
           setVerifiedCaptchaData(result);
           setIndicator(false);
-          if (result?.Message == 'success') {
+          if (result?.Message == "success") {
             setCaptchaShow(false);
             setVisible(true);
             setCaptchaSolve(true);
             props.loginVisible(true);
             Refresh();
           } else {
-            setCaptchaText('');
+            setCaptchaText("");
             GenerateCaptcha();
+            setError("Failed to submit captcha. Please try again.");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           setIndicator(false);
-          console.log('error 4', error);
+          console.log("error 4", error);
         });
     }
   };
@@ -281,7 +297,8 @@ const CyberSiaraCaptcha = (props) => {
       setVisible(false);
       props.loginVisible(false);
       setCaptchaSolve(false);
-      setVisible(false);
+      setCaptchaText("");
+      setError("");
     }, 30000);
   };
 
@@ -389,7 +406,7 @@ const CyberSiaraCaptcha = (props) => {
           <Text style={styles.PrivacyText}>Privacy Terms</Text>
         </View>
 
-        <View>
+        {captchaShow && (
           <Modal backdropOpacity={0} isVisible={captchaShow}>
             <View style={styles.ModalMainContainer}>
               <View
@@ -417,29 +434,6 @@ const CyberSiaraCaptcha = (props) => {
                   />
                 </TouchableOpacity>
               </View>
-              {/* <Text style={styles.SelectLanguageText}>
-                Please Select Language
-              </Text>
-              <View>
-                <DropDownPicker
-                  dropDownDirection={'BOTTOM'}
-                  style={styles.SelectLanguage}
-                  placeholder={'Select Language'}
-                  placeholderStyle={{
-                    color: 'white',
-                    fontWeight: 'bold',
-                  }}
-                  theme="DARK"
-                  showTickIcon={true}
-                  open={open}
-                  value={value}
-                  items={user_type}
-                  flatListProps={true}
-                  setOpen={setOpen}
-                  setValue={setValue}
-                  setItems={setuser_type}
-                />
-              </View> */}
               <View>
                 <Text style={styles.TypeAllTheLetterText}>
                   Type all the displayed letters
@@ -457,7 +451,13 @@ const CyberSiaraCaptcha = (props) => {
                       style={{ width: "100%", height: 65 }}
                     />
                   </View>
-                  <TouchableOpacity onPress={() => GenerateCaptcha()}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setCaptchaText("");
+                      setError("");
+                      GenerateCaptcha();
+                    }}
+                  >
                     <Image
                       source={require("./Images/refresh-page-option.png")}
                       style={{
@@ -477,9 +477,10 @@ const CyberSiaraCaptcha = (props) => {
                     style={styles.InputCaptcha}
                     maxLength={4}
                     value={captchaText}
-                    onChangeText={(text) => SubmitCaptcha(text)}
+                    // onChangeText={(text) => SubmitCaptcha(text)}
+                    onChangeText={handleChange}
                     secureTextEntry={caseSensitive}
-                    onSubmitEditing={() => SubmitCaptcha()}
+                    onSubmitEditing={handleKeyPress}
                   />
                   <View
                     style={{
@@ -540,6 +541,9 @@ const CyberSiaraCaptcha = (props) => {
                     </TouchableOpacity>
                   </View>
                 </View>
+                <Text style={{ color: "#bb2124", marginTop: 4, fontSize: 12 }}>
+                  {error ? error : ""}
+                </Text>
               </View>
 
               <View style={{ justifyContent: "center" }}>
@@ -572,7 +576,8 @@ const CyberSiaraCaptcha = (props) => {
               </View>
             </View>
           </Modal>
-        </View>
+        )}
+
         {indicator ? (
           <Modal visible={indicator} transparent={true} style={{ margin: 0 }}>
             <View style={{ flex: 1, backgroundColor: "#4E4E4E80" }}>
@@ -588,10 +593,10 @@ export default CyberSiaraCaptcha;
 
 const styles = StyleSheet.create({
   BaseContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.4,
     shadowRadius: 2,
     elevation: 2,
@@ -601,8 +606,8 @@ const styles = StyleSheet.create({
     width: 320,
   },
   SecondContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
+    flexDirection: "row",
+    backgroundColor: "#FFFFFF",
   },
   ProtectedByText: {
     marginLeft: 15,
@@ -614,7 +619,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   HumanUserText: {
-    color: 'blue',
+    color: "blue",
     fontSize: 15,
     marginLeft: 20,
     padding: 3,
@@ -625,30 +630,30 @@ const styles = StyleSheet.create({
     marginLeft: 23,
   },
   VerifiedView: {
-    width: '70%',
+    width: "70%",
     margin: 8,
     borderRadius: 100,
-    backgroundColor: '#4d94c4',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    backgroundColor: "#4d94c4",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   VerifiedText: {
     fontSize: 20,
     padding: 15,
     marginLeft: 50,
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: "white",
   },
   SuccessView: {
     height: 50,
     width: 50,
     borderRadius: 100,
-    backgroundColor: 'green',
+    backgroundColor: "green",
   },
   RightText: {
-    color: 'white',
+    color: "white",
     fontSize: 30,
-    textAlign: 'center',
+    textAlign: "center",
   },
   LoginButton: {
     margin: 10,
@@ -656,18 +661,18 @@ const styles = StyleSheet.create({
   },
 
   ModalMainContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.4,
     shadowRadius: 2,
     elevation: 2,
     padding: 15,
   },
   CaptchaView: {
-    backgroundColor: 'darkgray',
-    width: '88%',
+    backgroundColor: "darkgray",
+    width: "88%",
   },
   TypeAllTheLetterText: {
     padding: 5,
@@ -677,9 +682,9 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   InputCaptcha: {
-    borderColor: '#000000',
+    borderColor: "#000000",
     borderWidth: 1,
-    width: '40%',
+    width: "40%",
     marginTop: 20,
     height: 50,
     paddingLeft: 30,
