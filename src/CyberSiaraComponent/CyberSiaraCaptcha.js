@@ -272,7 +272,9 @@ const CyberSiaraCaptcha = (props) => {
         setLoginVisible(true);
         Refresh();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error : Submit the captcha verification ----", error);
+    }
   };
 
   const SubmitCaptcha = (data) => {
