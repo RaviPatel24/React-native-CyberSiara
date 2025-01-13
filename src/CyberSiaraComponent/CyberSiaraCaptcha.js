@@ -238,7 +238,7 @@ const CyberSiaraCaptcha = (props) => {
   const SubmitCaptcha = (data) => {
     if (data?.length == 4) {
       setIndicator(true);
-      var raw = JSON.stringify({
+      var raw_submit = JSON.stringify({
         MasterUrl: PUBLIC_KEY,
         DeviceIp: DeviceIp,
         DeviceType: DeviceType,
@@ -250,17 +250,15 @@ const CyberSiaraCaptcha = (props) => {
         Protocol: "http",
         Flag: "1",
         second: "2",
-        RequestID: visiterId?.RequestId,
-        VisiterId: visiterId?.Visiter_Id,
+        RequestID: captcha?.RequestId,
+        VisiterId: captcha?.Visiter_Id,
         fillupsecond: "8",
       });
-
-      console.log("4 Api Data Pass ------ ", raw);
 
       var requestOptions = {
         method: "POST",
         headers: myHeaders,
-        body: raw,
+        body: raw_submit,
         redirect: "follow",
       };
 
@@ -270,7 +268,6 @@ const CyberSiaraCaptcha = (props) => {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log("4 Api Response -=-=-=-=-= ", result);
           setVerifiedCaptchaData(result);
           setIndicator(false);
           if (result?.Message == "success") {
