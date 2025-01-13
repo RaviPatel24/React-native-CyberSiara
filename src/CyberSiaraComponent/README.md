@@ -1,10 +1,8 @@
-
-# react-native-siarashield
-
+## react-native-siarashield
 
 # Siarashield
-To authenticate using siarashield
 
+To authenticate using siarashield
 
 ## Prerequisites
 
@@ -24,22 +22,24 @@ $ yarn add react-native-dotenv
 
 **This Package Url** : Follow for more instruction [more instruction](https://www.npmjs.com/package/react-native-dotenv).
 
-**Basic Setups** : 
+**Basic Setups** :
 Add this code in your babel.config file.
 
 ```json
 {
   "plugins": [
-    ["module:react-native-dotenv", {
-      "moduleName": "@env",
-      "path": ".env",
-      "safe": false,
-      "allowUndefined": true,
-    }]
+    [
+      "module:react-native-dotenv",
+      {
+        "moduleName": "@env",
+        "path": ".env",
+        "safe": false,
+        "allowUndefined": true
+      }
+    ]
   ]
 }
 ```
-
 
 Configuration : Create a file on your root folder which name is ".env" .
 
@@ -59,26 +59,21 @@ PRIVATE_KEY = TEST-CYBERSIARA
 Create a Folder on Your Project (src/Config) and after then Create a file which name is "envs.js"
 
 ```js
-
 // Paste this code into your "envs.js" file
-import {PUBLIC_KEY, PRIVATE_KEY} from "@env"
+import { PUBLIC_KEY, PRIVATE_KEY } from "@env";
 
 const PUBLIC_KEYS = {
-    PUBLIC_KEY
-}
+  PUBLIC_KEY,
+};
 
 const PRIVATE_KEYS = {
-    PRIVATE_KEY
-}
+  PRIVATE_KEY,
+};
 
-export default {PUBLIC_KEYS, PRIVATE_KEYS}
-
+export default { PUBLIC_KEYS, PRIVATE_KEYS };
 ```
 
-
-
 **Note** : First complete above steps after then follow below steps.
-
 
 ## Installation
 
@@ -98,44 +93,47 @@ yarn add react-native-siarashield
 
 To get the Device Ip,
 
-1) On Android you must get Device Ip permission:
+1. On Android you must get Device Ip permission:
 
 ```java
   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 ```
 
+## Properties
 
-## Methods
-
-```js
-
- // You can change isLogin Props value using this Callback Method.
-  const loginVisible = (data) => {
-    setIsLogin(data);   // Ex. setRegister(data)
-  };
-
-```
-
+| Prop                   | Description                                                                   | Default | Required |
+| ---------------------- | ----------------------------------------------------------------------------- | ------- | -------- |
+| **`title`**            | The name of the button displayed to the user.                                 | `Login` | `No`     |
+| **`PUBLIC_KEY`**       | Set the public key, Which get from the mycybersiara.com site                  | -       | `Yes`    |
+| **`PRIVATE_KEY`**      | Set the private key, Which get from the mycybersiara.com site                 | -       | `Yes`    |
+| **`onPress`**          | Button press event, Set your custom logic for button press events             | Method  | `Yes`    |
+| **`verifyIconName`**   | Include a GIF or images that you want to display upon successful verification | GIF     | `No`     |
+| **`titleStyle`**       | Modify title text styles                                                      | -       | `No`     |
+| **`buttonStyles`**     | Modify button styles                                                          | -       | `No`     |
+| **`isShowVerifyIcon`** | Show verification icon on button, while completed verification.               | true    | `No`     |
 
 ## Usage
 
 ```js
-import CyberSiaraCaptcha from 'react-native-siarashield';
+import CyberSiaraCaptcha from "react-native-siarashield";
 
 // Import this file for geting data from that file
-import envs from '../Config/envs';
+import envs from "../Config/envs";
 
-// create your useState.
-// You can change the name of state. 
-const [isLogin, setIsLogin] = useState(false);  // Ex. [isRegister , setRegister] etc.
+const Login = () => {
+  // You can change isLogin Props value using this Method.
+  const onSubmitHandler = () => {
+    // You can set your business logic here
+    // like. Validation user form, APIs calling
+  };
 
-// You can change props value by state variable.
-  <CyberSiaraCaptcha
-    isLogin={isLogin}      // Ex. isLogin = {isRegister}
-    PUBLIC_KEY = {envs.PUBLIC_KEYS.PUBLIC_KEY}
-    PRIVATE_KEY = {envs.PRIVATE_KEYS.PRIVATE_KEY}
-    loginVisible={data => loginVisible(data)}
-  />
-
+  return (
+    // You can change props value by state variable.
+    <CyberSiaraCaptcha
+      PUBLIC_KEY={envs.PUBLIC_KEYS.PUBLIC_KEY}
+      PRIVATE_KEY={envs.PRIVATE_KEYS.PRIVATE_KEY}
+      onPress={onSubmitHandler}
+    />
+  );
+};
 ```
-

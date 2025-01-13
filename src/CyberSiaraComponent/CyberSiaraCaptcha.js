@@ -10,14 +10,23 @@ import {
   View,
 } from "react-native";
 import DeviceInfo from "react-native-device-info";
-import DropDownPicker from "react-native-dropdown-picker";
+// import DropDownPicker from "react-native-dropdown-picker";
 import { SkypeIndicator } from "react-native-indicators";
 import Modal from "react-native-modal";
 import { NetworkInfo } from "react-native-network-info";
-import Slider from "react-native-slide-to-unlock";
+// import Slider from "react-native-slide-to-unlock";
 
 const CyberSiaraCaptcha = (props) => {
-  const { isLogin, PUBLIC_KEY, PRIVATE_KEY } = props;
+  const {
+    PUBLIC_KEY,
+    PRIVATE_KEY,
+    title = "Login",
+    titleStyle,
+    buttonStyles,
+    onPress = () => {},
+    verifyIconName = require("./Images/rightAnimation.gif"),
+    isShowVerifyIcon = true,
+  } = props;
   const { width, height } = Dimensions.get("window");
 
   const [visible, setVisible] = useState(false);
@@ -26,6 +35,7 @@ const CyberSiaraCaptcha = (props) => {
   const [error, setError] = useState("");
   const [captchaSolve, setCaptchaSolve] = useState(false);
   const [visiterId, setVisiterId] = useState();
+  const [loginVisible, setLoginVisible] = useState(false);
 
   const [captchaText, setCaptchaText] = useState("");
 
@@ -153,14 +163,16 @@ const CyberSiaraCaptcha = (props) => {
         console.log("2 Api Response -=-=-=- ", result, result?.Message);
         if (result.Message == "success") {
           setVisible(true);
-          props.loginVisible(true);
+          // props.loginVisible(true);
+          setLoginVisible(true);
           setCaptchaSolve(true);
           setCaptchaShow(false);
           setIndicator(false);
           Refresh();
         } else {
           setVisible(false);
-          props.loginVisible(false);
+          // props.loginVisible(false);
+          setLoginVisible(false);
           setCaptchaSolve(false);
           setCaptchaShow(true);
           setIndicator(false);
@@ -235,6 +247,34 @@ const CyberSiaraCaptcha = (props) => {
     }
   };
 
+  const SubmitCaptchaVerification = async (token) => {
+    console.log("params: token ---", token);
+    const captchaVerificationUrl =
+      "https://embed.mycybersiara.com/api/validate-token";
+
+    const headers = {
+      ip: DeviceIp,
+      Authorization: `Bearer ${token}`,
+      key: PRIVATE_KEY,
+    };
+    try {
+      const response = await fetch(captchaVerificationUrl, {
+        method: "GET",
+        headers: headers,
+      });
+
+      const data = await response.json();
+      if (data?.HttpStatusCode == 200) {
+        console.log("params: Response Data: ---", data);
+        setCaptchaShow(false);
+        setVisible(true);
+        setCaptchaSolve(true);
+        setLoginVisible(true);
+        Refresh();
+      }
+    } catch (error) {}
+  };
+
   const SubmitCaptcha = (data) => {
     if (data?.length == 4) {
       setIndicator(true);
@@ -271,11 +311,7 @@ const CyberSiaraCaptcha = (props) => {
           setVerifiedCaptchaData(result);
           setIndicator(false);
           if (result?.Message == "success") {
-            setCaptchaShow(false);
-            setVisible(true);
-            setCaptchaSolve(true);
-            props.loginVisible(true);
-            Refresh();
+            SubmitCaptchaVerification(result?.data);
           } else {
             setCaptchaText("");
             GenerateCaptcha();
@@ -292,7 +328,7 @@ const CyberSiaraCaptcha = (props) => {
   const Refresh = () => {
     setTimeout(() => {
       setVisible(false);
-      props.loginVisible(false);
+      setLoginVisible(false);
       setCaptchaSolve(false);
       setCaptchaText("");
       setError("");
@@ -302,7 +338,7 @@ const CyberSiaraCaptcha = (props) => {
   return (
     <View>
       <View style={styles.BaseContainer}>
-        <View style={styles.SecondContainer}>
+        {/* <View style={styles.SecondContainer}>
           {!visible ? (
             <Slider
               onEndReached={() => {
@@ -397,11 +433,40 @@ const CyberSiaraCaptcha = (props) => {
               source={require("./Images/download.png")}
             />
           </View>
-        </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        </View> */}
+        {/* <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={styles.ProtectedByText}>Protected by CyberSiARA</Text>
           <Text style={styles.PrivacyText}>Privacy Terms</Text>
-        </View>
+        </View> */}
+
+        <TouchableOpacity
+          style={[styles.container, { ...buttonStyles }]}
+          activeOpacity={0.8}
+          onPress={() => {
+            console.log("loginVisible ----", loginVisible);
+            if (loginVisible) {
+              onPress();
+            } else {
+              VerifiedSubmit();
+              setVisible(true);
+            }
+          }}
+        >
+          <Text style={[styles.txtStyle, { ...titleStyle }]}>{title}</Text>
+          {isShowVerifyIcon && loginVisible && (
+            <Image
+              style={{
+                width: 20,
+                // margin: 4,
+                marginHorizontal: 4,
+                alignSelf: "center",
+                borderRadius: 100,
+                height: 20,
+              }}
+              source={verifyIconName}
+            />
+          )}
+        </TouchableOpacity>
 
         {captchaShow && (
           <Modal backdropOpacity={0} isVisible={captchaShow}>
@@ -590,17 +655,17 @@ export default CyberSiaraCaptcha;
 
 const styles = StyleSheet.create({
   BaseContainer: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
-    elevation: 2,
-    margin: 10,
-    padding: 15,
-    height: 120,
-    width: 320,
+    // backgroundColor: "#FFFFFF",
+    // borderRadius: 10,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.4,
+    // shadowRadius: 2,
+    // elevation: 2,
+    // margin: 10,
+    // padding: 15,
+    // height: 120,
+    // width: 320,
   },
   SecondContainer: {
     flexDirection: "row",
@@ -686,5 +751,28 @@ const styles = StyleSheet.create({
     height: 50,
     paddingLeft: 30,
     fontSize: 25,
+  },
+  container: {
+    flexDirection: "row",
+    marginHorizontal: "10%",
+    marginVertical: "5%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#4d94c4",
+    shadowColor: "#000",
+    padding: 8,
+    borderRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  txtStyle: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500",
   },
 });
